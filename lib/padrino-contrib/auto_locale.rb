@@ -10,6 +10,7 @@ module Padrino
     #     register AutoLocale
     #     set :locales, [:en, :ru, :de] # First locale is the default locale
     #     set :locale_exclusive_paths, ['/js', '/css', '/img'] # asset uri paths which shouldn't be localized
+    #     set :locale_param, :locale # Optional: Switch param key from :lang to :locale
     #   end
     #
     #   # view.haml
@@ -34,6 +35,7 @@ module Padrino
         app.extend ClassMethods
         app.set :locales, [:en]
         app.set :locale_exclusive_paths, []
+        app.set :locale_param, :lang
         @@exclusive_paths = false
         app.before do
           # Gather excluded paths
@@ -85,7 +87,8 @@ module Padrino
           return unless route.original_path.is_a?(String)
           excluded_paths = block.binding.eval('settings').locale_exclusive_paths
           return if AutoLocale.excluded_path?(route.original_path, excluded_paths)
-          route.path = "/:lang#{route.original_path}" unless route.original_path =~ /:lang/
+          locale_param = block.binding.eval('settings').locale_param
+          route.path = "/:#{locale_param}#{route.original_path}" unless route.original_path =~ /:#{locale_param}/
         end
 
         def self.excluded_path?(path, excluded_paths)
@@ -105,7 +108,7 @@ module Padrino
         #
         def url(*args)
           params = args.extract_options!
-          params[:lang] ||= I18n.locale
+          params[settings.locale_param.to_sym] ||= I18n.locale
           args << params
           super(*args)
         end

@@ -123,4 +123,25 @@ describe Padrino::Contrib::AutoLocale do
       expect(last_response.body).to eq '/unlocalized/path'
     end
   end
+
+  describe 'custom language param' do
+    before :all do
+      mock_app {
+        register Padrino::Contrib::AutoLocale
+        set :locales, [ :es, :en ]
+        set :locale_param, :locale
+
+        get('/') { 'root' }
+        get('/bar/:lang') { 'bar' }
+      }
+    end
+
+    it 'ignores default lang param' do
+      expect { get '/bar/en' }.to change { I18n.locale }.to :es
+    end
+
+    it 'sets I18n.locale to the requested locale' do
+      expect { get '/es' }.to change { I18n.locale }.to :es
+    end
+  end
 end
