@@ -11,7 +11,7 @@ describe "BreadcrumbHelpers" do
 
   describe "for Breadcrumbs#breadcrumbs method" do
     it 'should support breadcrumbs which is Padrino::Helpers::Breadcrumbs instance.' do
-      breadcrumb.add "foo", "/foo", "foo link"
+      breadcrumb.add "foo", "/foo", "Foo link"
       expect(breadcrumbs(breadcrumb)).to have_selector(:a, :content => "Foo link", :href => "/foo")
     end
 
@@ -37,8 +37,8 @@ describe "BreadcrumbHelpers" do
       breadcrumb.add :bar, "/bar", "Bar Link"
 
       actual_html = breadcrumbs(breadcrumb)
-      expect(actual_html).to have_selector(:a, :content => "Foo link", :href => "/foo")
-      expect(actual_html).to have_selector(:a, :content => "Bar link", :href => "/bar")
+      expect(actual_html).to have_selector(:a, :content => "Foo Link", :href => "/foo")
+      expect(actual_html).to have_selector(:a, :content => "Bar Link", :href => "/bar")
     end
 
     it 'should support url' do
@@ -48,7 +48,7 @@ describe "BreadcrumbHelpers" do
 
     it 'should support caption' do
       breadcrumb.add :foo, "/foo", "Foo Link"
-      expect(breadcrumbs(breadcrumb)).to have_selector(:a, :content => "Foo link")
+      expect(breadcrumbs(breadcrumb)).to have_selector(:a, :content => "Foo Link")
     end
 
     it 'should support options' do
@@ -90,7 +90,7 @@ describe "BreadcrumbHelpers" do
   describe "for #set_home method" do
     it 'should modified home item elements.' do
       breadcrumb.set_home("/custom", "Custom Home Page")
-      expect(breadcrumbs(breadcrumb)).to have_selector(:a, :content => "Custom home page", :href => "/custom")
+      expect(breadcrumbs(breadcrumb)).to have_selector(:a, :content => "Custom Home Page", :href => "/custom")
     end
 
     it 'should support options' do
@@ -98,7 +98,7 @@ describe "BreadcrumbHelpers" do
 
       actual_html = breadcrumbs(breadcrumb)
       expect(actual_html).to have_selector(:li, :id => "home-id")
-      expect(actual_html).to have_selector(:a, :content => "Custom home page", :href => "/custom")
+      expect(actual_html).to have_selector(:a, :content => "Custom Home Page", :href => "/custom")
     end
   end
 
@@ -111,9 +111,9 @@ describe "BreadcrumbHelpers" do
       breadcrumb.reset
 
       actual_html = breadcrumbs(breadcrumb)
-      expect(actual_html).to have_selector(:a, :content => "Custom home page", :href => "/custom")
-      expect(actual_html).not_to have_selector(:a, :content => "Foo link", :href => "/foo")
-      expect(actual_html).not_to have_selector(:a, :content => "Bar link", :href => "/bar")
+      expect(actual_html).to have_selector(:a, :content => "Custom Home Page", :href => "/custom")
+      expect(actual_html).not_to have_selector(:a, :content => "Foo Link", :href => "/foo")
+      expect(actual_html).not_to have_selector(:a, :content => "Bar Link", :href => "/bar")
     end
   end
 
@@ -126,8 +126,8 @@ describe "BreadcrumbHelpers" do
 
       actual_html = breadcrumbs(breadcrumb)
       expect(actual_html).to have_selector(:a, :content => "Home Page", :href => "/")
-      expect(actual_html).not_to have_selector(:a, :content => "Foo link", :href => "/foo")
-      expect(actual_html).not_to have_selector(:a, :content => "Bar link", :href => "/bar")
+      expect(actual_html).not_to have_selector(:a, :content => "foo link", :href => "/foo")
+      expect(actual_html).not_to have_selector(:a, :content => "Bar Link", :href => "/bar")
     end
   end
 end
